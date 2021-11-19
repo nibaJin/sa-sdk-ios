@@ -60,6 +60,11 @@
 
 - (void)testProfileSet {
     [[SensorsAnalyticsSDK sharedInstance] set:@"name" to:@"caojiang"];
+    
+    NSURL *url = [NSURL URLWithString:@"BGI://visualized/ios?url=http&feature_code=111"];
+    if ([[SensorsAnalyticsSDK sharedInstance] canHandleURL:url]) {
+        [[SensorsAnalyticsSDK sharedInstance] handleSchemeUrl:url];
+    }
 }
 
 - (void)testProfileAppend {

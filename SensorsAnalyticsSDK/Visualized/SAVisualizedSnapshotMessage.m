@@ -115,7 +115,7 @@ static NSString * const kSnapshotSerializerConfigKey = @"snapshot_class_descript
 @implementation SAVisualizedSnapshotResponseMessage
 
 + (instancetype)message {
-    return [(SAVisualizedSnapshotResponseMessage *)[self alloc] initWithType:@"snapshot_response"];
+    return [(SAVisualizedSnapshotResponseMessage *)[self alloc] initWithType:@"snapshotResponse"];
 }
 
 - (void)setScreenshot:(UIImage *)screenshot {
@@ -137,7 +137,7 @@ static NSString * const kSnapshotSerializerConfigKey = @"snapshot_class_descript
 
     self.payloadHash = payloadHash;
     [self setPayloadObject:payloadObject forKey:@"screenshot"];
-    [self setPayloadObject:payloadHash forKey:@"image_hash"];
+    [self setPayloadObject:payloadHash forKey:@"imageHash"];
 }
 
 - (void)setDebugEvents:(NSArray<NSDictionary *> *)debugEvents {

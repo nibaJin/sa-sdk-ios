@@ -75,7 +75,7 @@
 
     NSMutableDictionary *serializedObjects = [NSMutableDictionary dictionaryWithDictionary:@{
         @"objects" : [context allSerializedObjects],
-        @"rootObject": [_objectIdentityProvider identifierForObject:rootObject]
+        @"elementMd5": [_objectIdentityProvider identifierForObject:rootObject]
     }];
     return [serializedObjects copy];
 }
@@ -96,7 +96,15 @@
         for (SAPropertyDescription *propertyDescription in [classDescription propertyDescriptions]) {
             //  根据是否符号要求（是否显示等）构建属性，通过 KVC 和 NSInvocation 动态调用获取描述信息
             id propertyValue = [self propertyValueForObject:object withPropertyDescription:propertyDescription context:context];         // $递增作为元素 id
-            propertyValues[propertyDescription.key] = propertyValue;
+            if ([propertyDescription.key isEqualToString:@"frame"]) {
+                // 将frame取出来 并且以left这种key表示坐标和宽高
+                propertyValues[@"left"] = propertyValue[@"X"];
+                propertyValues[@"top"] = propertyValue[@"Y"];
+                propertyValues[@"width"] = propertyValue[@"Width"];
+                propertyValues[@"height"] = propertyValue[@"Height"];
+            } else {
+                propertyValues[propertyDescription.key] = propertyValue;
+            }
         }
     }
 
@@ -121,11 +129,13 @@
         classNames = @[touchView.tagName];
     }
 
-    propertyValues[@"element_level"] = @([context currentLevelIndex]);
-    NSDictionary *serializedObject = @{ @"id": [_objectIdentityProvider identifierForObject:object],
-                                        @"class": classNames, // 遍历获取父类名称
-                                        @"properties": propertyValues };
-
+    propertyValues[@"elementLevel"] = @([context currentLevelIndex]);
+    
+    [propertyValues addEntriesFromDictionary:@{ @"elementMd5": [_objectIdentityProvider identifierForObject:object],
+                                                @"classes": classNames, // 遍历获取父类名称
+                                                }];
+    NSDictionary *serializedObject = propertyValues;
+    
     [context addSerializedObject:serializedObject];
 }
 

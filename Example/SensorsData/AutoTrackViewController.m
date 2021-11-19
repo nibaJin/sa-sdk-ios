@@ -68,7 +68,12 @@
     NSLog(@"switch on:%d",sender.on);
 }
 
-- (IBAction)onButton1Click:(UIButton *)sender {
+- (IBAction)onButton1Click:(UIButton *)sender
+{
+    NSURL *url = [NSURL URLWithString:@"BGI://visualized/ios?url=http&feature_code=111"];
+    if ([[SensorsAnalyticsSDK sharedInstance] canHandleURL:url]) {
+        [[SensorsAnalyticsSDK sharedInstance] handleSchemeUrl:url];
+    }
 }
 
 - (IBAction)segmentOnClick:(UISegmentedControl *)sender {

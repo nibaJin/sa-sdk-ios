@@ -84,8 +84,8 @@
 }
 
 - (void)addSerializedObject:(NSDictionary *)serializedObject {
-    if (serializedObject[@"id"]) {
-        _serializedObjects[serializedObject[@"id"]] = serializedObject;
+    if (serializedObject[@"elementMd5"]) {
+        _serializedObjects[serializedObject[@"elementMd5"]] = serializedObject;
     }
 }
 

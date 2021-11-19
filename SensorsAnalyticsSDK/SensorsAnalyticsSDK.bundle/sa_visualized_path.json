@@ -31,37 +31,37 @@
           "properties": [
             {
               "name": "sensorsdata_enableAppClick",
-              "key": "enableAppClick",
+              "key": "clickable",
               "type": "BOOL",
               "use_kvc": false
             },
             {
               "name": "sensorsdata_subElements",
-              "key": "subelements",
+              "key": "subviewsMd5",
               "type": "NSArray",
               "use_kvc": false
             },
             {
               "name": "sensorsdata_elementValidContent",
-              "key": "element_content",
+              "key": "elementContent",
               "type": "NSString",
               "use_kvc": false
             },
             {
                 "name": "sensorsdata_elementPath",
-                "key": "element_path",
+                "key": "elementPath",
                 "type": "NSString",
                 "use_kvc": false
             },
             {
                 "name": "sensorsdata_elementSelector",
-                "key": "element_selector",
+                "key": "elementSelector",
                 "type": "NSString",
                 "use_kvc": false
             },
             {
               "name": "sensorsdata_elementPosition",
-              "key": "element_position",
+              "key": "elementPosition",
               "type": "NSString",
               "use_kvc": false
             },
@@ -87,7 +87,7 @@
             },
             {
               "name": "sensorsdata_screenName",
-              "key": "screen_name",
+              "key": "screenName",
               "type": "NSString",
               "use_kvc": false
             },
@@ -99,13 +99,13 @@
             },
             {
               "name": "sensorsdata_isFromWeb",
-              "key": "is_h5",
+              "key": "isH5",
               "type": "BOOL",
               "use_kvc": false
             },
             {
               "name": "sensorsdata_isListView",
-              "key": "is_list_view",
+              "key": "isListView",
               "type": "BOOL",
               "use_kvc": false
             }
@@ -121,17 +121,17 @@
               },
               {
                 "name": "title",
-                "key": "h5_title",
+                "key": "h5Title",
                 "type": "NSString"
               },
               {
                   "name": "tagName",
-                  "key": "tag_name",
+                  "key": "tagName",
                   "type": "NSString"
               },
               {
                   "name": "listSelector",
-                  "key": "list_selector",
+                  "key": "listSelector",
                   "type": "NSString"
               }
           ]
@@ -156,7 +156,7 @@
           "properties": [
             {
               "name": "sensorsdata_subElements",
-              "key": "subelements",
+              "key": "subviewsMd5",
               "type": "NSArray",
               "use_kvc": false
             },

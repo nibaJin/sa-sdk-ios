@@ -361,7 +361,7 @@ static NSInteger kSAVisualizedFindMaxPageLevel = 4;
     UIImage *screenshotImage = nil;
     @try {
         CGSize size = view.bounds.size;
-        UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+        UIGraphicsBeginImageContextWithOptions(size, NO, 1);
         CGRect rect = view.bounds;
         //  drawViewHierarchyInRect:afterScreenUpdates: 截取一个UIView或者其子类中的内容，并且以位图的形式（bitmap）保存到UIImage中
         // afterUpdates 参数表示是否在所有效果应用在视图上了以后再获取快照
@@ -371,6 +371,8 @@ static NSInteger kSAVisualizedFindMaxPageLevel = 4;
     } @catch (NSException *exception) {
         SALogError(@"screenshot fail，error %@: %@", self, exception);
     }
+    
+    SALogDebug(@"screenshotImage.size : width(%f), height(%f)", screenshotImage.size.width, screenshotImage.size.height);
     return screenshotImage;
 }
 

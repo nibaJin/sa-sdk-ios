@@ -50,7 +50,8 @@
 
 // 所有 window 截图合成
 - (void)screenshotImageForAllWindowWithCompletionHandler:(void (^)(UIImage *))completionHandler {
-    CGFloat scale = [UIScreen mainScreen].scale;
+//    CGFloat scale = [UIScreen mainScreen].scale; (不要 截取的图片像素就是跟手机屏幕一样 - fujin备)
+    
     // 获取所有可见的 window 截图
     NSMutableArray <UIWindow *> *allActiveWindows = [NSMutableArray array];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
@@ -86,7 +87,8 @@
     }
 
     CGSize mainScreenSize = UIScreen.mainScreen.bounds.size;
-    CGSize newSize = CGSizeMake(mainScreenSize.width * scale, mainScreenSize.height * scale);
+//    CGSize newSize = CGSizeMake(mainScreenSize.width * scale, mainScreenSize.height * scale);
+    CGSize newSize = CGSizeMake(mainScreenSize.width , mainScreenSize.height);
     // 将上面得到的多张图片合并绘制为一张图片，最终得到 screenshotImage
     UIImage *screenshotImage = nil;
     UIGraphicsBeginImageContext(newSize);
@@ -94,7 +96,8 @@
         UIImage *image = [SAVisualizedUtils screenshotWithView:window];
         if (image) {
             CGPoint windowPoint = window.frame.origin;
-            [image drawInRect:CGRectMake(windowPoint.x * scale, windowPoint.y * scale, image.size.width * scale, image.size.height * scale)];
+//            [image drawInRect:CGRectMake(windowPoint.x * scale, windowPoint.y * scale, image.size.width * scale, image.size.height * scale)];
+            [image drawInRect:CGRectMake(windowPoint.x, windowPoint.y, image.size.width, image.size.height)];
         }
     }
     screenshotImage = UIGraphicsGetImageFromCurrentImageContext();

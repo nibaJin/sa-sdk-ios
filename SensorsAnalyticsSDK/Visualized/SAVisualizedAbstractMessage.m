@@ -22,7 +22,6 @@
 #error This file must be compiled with ARC. Either turn on ARC for the project or use -fobjc-arc flag on this file.
 #endif
 
-
 #import "SAGzipUtility.h"
 #import "SAVisualizedAbstractMessage.h"
 #import "SensorsAnalyticsSDK.h"
@@ -122,14 +121,14 @@
         SALogError(@"%@ error: %@", self, exception);
     }
 
-    jsonObject[@"page_name"] = pageName;
-    jsonObject[@"screen_name"] = screenName;
+    jsonObject[@"pageName"] = pageName;
+    jsonObject[@"screenName"] = screenName;
     jsonObject[@"title"] = title;
-    jsonObject[@"app_version"] = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+    jsonObject[@"appVersion"] = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
     jsonObject[@"feature_code"] = featureCode;
-    jsonObject[@"is_webview"] = @(serializerManager.isContainWebView);
+    jsonObject[@"isWebview"] = @(serializerManager.isContainWebView);
     // 增加 appId
-    jsonObject[@"app_id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    jsonObject[@"appId"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
 
     // 上传全埋点配置开启状态
     NSMutableArray<NSString *>* autotrackOptions = [NSMutableArray array];
@@ -140,10 +139,10 @@
     if (eventType &  SensorsAnalyticsEventTypeAppViewScreen) {
         [autotrackOptions addObject:kSAEventNameAppViewScreen];
     }
-    jsonObject[@"app_autotrack"] = autotrackOptions;
+    jsonObject[@"appAutotrack"] = autotrackOptions;
 
     // 自定义属性开关状态
-        jsonObject[@"app_enablevisualizedproperties"] = @(SensorsAnalyticsSDK.sharedInstance.configOptions.enableVisualizedProperties);
+        jsonObject[@"appEnablevisualizedproperties"] = @(SensorsAnalyticsSDK.sharedInstance.configOptions.enableVisualizedProperties);
 
 
     // 添加前端弹框信息
@@ -160,30 +159,47 @@
     }
     
     // SDK 版本号
-    jsonObject[@"lib_version"] = SensorsAnalyticsSDK.sharedInstance.libVersion;
+    jsonObject[@"libVersion"] = SensorsAnalyticsSDK.sharedInstance.libVersion;
     // 可视化全埋点配置版本号
-    jsonObject[@"config_version"] = [SAVisualizedManager defaultManager].configSources.configVersion;
+    jsonObject[@"configVersion"] = [SAVisualizedManager defaultManager].configSources.configVersion;
 
     if (_payload.count == 0) {
         return [SAJSONUtil dataWithJSONObject:jsonObject];
     }
     // 如果使用 GZip 压缩
     // 1. 序列化 Payload
-    NSData *jsonData = [SAJSONUtil dataWithJSONObject:_payload];
+//    NSData *jsonData = [SAJSONUtil dataWithJSONObject:_payload];
     
     // 2. 使用 GZip 进行压缩
-    NSData *zippedData = [SAGzipUtility gzipData:jsonData];
+//    NSData *zippedData = [SAGzipUtility gzipData:jsonData];
     
     // 3. Base64 Encode
-    NSString *b64String = [zippedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+//    NSString *b64String = [zippedData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
     
-    jsonObject[@"gzip_payload"] = b64String;
+//    jsonObject[@"gzip_payload"] = b64String;
     
+    printf("screenShot----(%s)---", [[SAJSONUtil stringWithJSONObject:@{@"screenshot":_payload[@"screenshot"]}] UTF8String]);
+    
+//    _payload[@"screenshot"] = @"image";
+    
+    [self resetPayloadKeyNameAndStructure];
+    jsonObject[@"payload"] = _payload;
+    
+//    printf("-----------------(%s)----------------------", [[SAJSONUtil stringWithJSONObject:jsonObject] UTF8String]);
     return [SAJSONUtil dataWithJSONObject:jsonObject];
 }
 
 - (NSString *)debugDescription {
     return [NSString stringWithFormat:@"<%@:%p type='%@'>", NSStringFromClass([self class]), (__bridge void *)self, self.type];
+}
+
+- (void)resetPayloadKeyNameAndStructure
+{
+    NSMutableDictionary *changeDic = [NSMutableDictionary new];
+    changeDic[@"activities"] = [[NSMutableArray alloc] initWithObjects:_payload, nil];
+    // 新增当前屏幕scale - 图片像素统一为手机屏幕大小
+    [self setPayloadObject:@(1) forKey:@"scale"];
+    _payload = changeDic;
 }
 
 @end
